@@ -1,0 +1,19 @@
+{
+  "name": "ats-cv-maker",
+  "version": "2.0.0",
+  "private": true,
+  "description": "AI-powered ATS CV maker with Razorpay unlock",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev",
+    "build": "echo 'No build step required'",
+    "lint": "node -e \"console.log('No lint configured')\""
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "razorpay": "^2.9.4"
+  }
+}
