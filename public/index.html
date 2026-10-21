@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ATS CV Maker</title>
+    <meta
+      name="description"
+      content="AI-powered ATS CV maker with secure payment verification."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f5f7fb;
+        --card: #ffffff;
+        --text: #111827;
+        --muted: #4b5563;
+        --primary: #2563eb;
+        --primary-strong: #1d4ed8;
+        --accent: #dbeafe;
+        --success: #0f9d58;
+        --warning: #f59e0b;
+        --danger: #dc2626;
+        --line: #e5e7eb;
+        --shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(180deg, #eff6ff 0%, var(--bg) 380px);
+        color: var(--text);
+      }
+      a { color: inherit; }
+      .container {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(12px);
+        background: rgba(245, 247, 251, 0.8);
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 76px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+      }
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--primary), #7c3aed);
+        color: white;
+        box-shadow: var(--shadow);
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        color: var(--muted);
+        font-size: 0.96rem;
+      }
+      .nav-links a { text-decoration: none; }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: none;
+        border-radius: 14px;
+        padding: 0.9rem 1.3rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+      }
+      .button.primary {
+        background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+        color: white;
+        box-shadow: 0 16px 30px rgba(37, 99, 235, 0.22);
+      }
+      .button.primary:hover { transform: translateY(-1px); }
+      .button.secondary {
+        background: #fff;
+        border: 1px solid var(--line);
+        color: var(--text);
+      }
+      .hero {
+        padding: 64px 0 26px;
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 30px;
+        align-items: center;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(37, 99, 235, 0.08);
+        color: var(--primary-strong);
+        font-weight: 700;
+        font-size: 0.8rem;
+      }
+      h1 {
+        font-size: clamp(2.6rem, 4vw, 4.4rem);
+        line-height: 1.03;
+        letter-spacing: -0.06em;
+        margin: 18px 0 18px;
+      }
+      .lead {
+        max-width: 620px;
+        color: var(--muted);
+        font-size: 1.06rem;
+        line-height: 1.7;
+      }
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 28px;
+      }
+      .trust-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-top: 26px;
+        color: var(--muted);
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      .mini-panel {
+        background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,247,255,1));
+        border: 1px solid rgba(148,163,184,0.28);
+        border-radius: 28px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+      }
+      .mini-panel h3 {
+        margin: 0 0 12px;
+        font-size: 1.05rem;
+      }
+      .score {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 18px;
+        border-radius: 18px;
+        background: rgba(255,255,255,0.8);
+        border: 1px solid var(--line);
+        margin-top: 18px;
+      }
+      .big-score {
+        font-size: 2rem;
+        font-weight: 800;
+        letter-spacing: -0.05em;
+      }
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.7rem;
+        font-weight: 700;
+        background: rgba(16,185,129,0.12);
+        color: var(--success);
+        border-radius: 999px;
+        padding: 6px 10px;
+      }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 18px;
+      }
+      .stat-card {
+        background: rgba(255,255,255,0.8);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 16px 16px 14px;
+      }
+      .stat-card strong {
+        display: block;
+        font-size: 1.5rem;
+        letter-spacing: -0.05em;
+        margin-top: 4px;
+      }
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        padding: 60px 0 10px;
+      }
+      .feature {
+        background: rgba(255,255,255,0.7);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        padding: 28px 22px;
+      }
+      .feature .icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: var(--accent);
+        color: var(--primary-strong);
+        font-size: 1.3rem;
+      }
+      .feature h3 {
+        margin: 16px 0 8px;
+        font-size: 1.2rem;
+      }
+      .feature p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      .builder {
+        padding: 50px 0 52px;
+      }
+      .builder-shell {
+        background: rgba(255,255,255,0.9);
+        border: 1px solid var(--line);
+        border-radius: 26px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .builder-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 22px 24px;
+        border-bottom: 1px solid var(--line);
+        background: #f8fafc;
+      }
+      .builder-header h2 {
+        margin: 0;
+        font-size: 1.5rem;
+        letter-spacing: -0.04em;
+      }
+      .builder-main {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+      }
+      .form-pane,
+      .preview-pane {
+        padding: 22px 24px 26px;
+      }
+      .form-pane {
+        border-right: 1px solid var(--line);
+      }
+      .form-group { margin-bottom: 18px; }
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      textarea, input, select {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px 14px;
+        font: inherit;
+        color: var(--text);
+        background: #fff;
+      }
+      textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+      .row { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+      .prompt-box {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: linear-gradient(180deg, #fafcff, #fff);
+        padding: 18px;
+      }
+      .prompt-box textarea { border: none; background: transparent; min-height: 160px; }
+      .action-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .status {
+        margin-top: 12px;
+        min-height: 24px;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+      .status.error { color: var(--danger); }
+      .status.success { color: var(--success); }
+      .preview-pane {
+        background: linear-gradient(180deg, rgba(239,246,255,0.6), rgba(255,255,255,0.9));
+      }
+      .cv-shell {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 22px;
+      }
+      .cv-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 25px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--line);
+      }
+      .cv-name {
+        font-size: clamp(1.8rem, 2.4vw, 2.4rem);
+        letter-spacing: -0.06em;
+        margin: 0;
+      }
+      .cv-role {
+        color: var(--muted);
+        font-weight: 600;
+        margin-top: 6px;
+      }
+      .cv-meta {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        color: var(--muted);
+        display: grid;
+        gap: 6px;
+      }
+      .cv-section {
+        margin-top: 24px;
+      }
+      .cv-section h4 {
+        margin: 0 0 12px;
+        font-size: 0.86rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--primary-strong);
+      }
+      .cv-section p, .cv-section li {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      .skill-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .skill-chip {
+        border-radius: 999px;
+        border: 1px solid rgba(37,99,235,0.18);
+        background: rgba(219,234,254,0.5);
+        color: var(--primary-strong);
+        padding: 7px 10px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+      .unlock-box {
+        margin-top: 30px;
+        padding: 20px 18px;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, #f8fafc, #fff);
+      }
+      .unlock-box.hidden {
+        display: none;
+      }
+      .unlock-box h3 {
+        margin-top: 0;
+      }
+      .inline { display: flex; gap: 10px; align-items: center; }
+      .inline input { flex: 1; }
+      .hidden { display: none; }
+      .faq {
+        padding: 18px 0 80px;
+      }
+      .faq-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+      .faq-item {
+        background: rgba(255,255,255,0.8);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 24px 22px;
+      }
+      .faq-item h3 {
+        margin-top: 0;
+        font-size: 1.1rem;
+      }
+      .faq-item p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        background: rgba(255,255,255,0.7);
+      }
+      .foot {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 20px 0 40px;
+        color: var(--muted);
+      }
+      @media (max-width: 980px) {
+        .hero-grid, .builder-main, .feature-grid, .faq-grid {
+          grid-template-columns: 1fr;
+        }
+        .form-pane { border-right: none; border-bottom: 1px solid var(--line); }
+      }
+      @media (max-width: 620px) {
+        .nav { flex-wrap: wrap; gap: 12px; padding: 12px 0; }
+        .nav-links { width: 100%; justify-content: space-between; }
+        .row { grid-template-columns: 1fr; }
+        .foot { flex-direction: column; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container nav">
+        <div class="brand">
+          <div class="brand-mark">CV</div>
+          ATS CV Maker
+        </div>
+        <nav class="nav-links">
+          <a href="#features">Features</a>
+          <a href="#builder">Builder</a>
+          <a href="#faq">FAQ</a>
+          <button class="button secondary" type="button" id="scrollToBuilder">Try demo</button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow">AI + ATS checked</div>
+            <h1>Turn your job story into a recruiter-proof CV.</h1>
+            <p class="lead">
+              Generate a sharper resume, tailor it to each role, and unlock a clean PDF output.
+              Built for ATS compatibility and modern job search workflows.
+            </p>
+            <div class="hero-actions">
+              <a href="#builder" class="button primary">Build my CV</a>
+              <a href="#features" class="button secondary">See how it works</a>
+            </div>
+            <div class="trust-row">
+              <span>ATS Friendly</span>
+              <span>AI Writing</span>
+              <span>PDF Ready</span>
+            </div>
+          </div>
+
+          <div class="mini-panel">
+            <h3>Resume quality score</h3>
+            <div class="score">
+              <div>
+                <div class="small-label">Overall</div>
+                <div class="big-score">92%</div>
+              </div>
+              <div class="tag">Strong match</div>
+            </div>
+            <div class="stats-grid">
+              <div class="stat-card">
+                <span>Skills match</span>
+                <strong>96%</strong>
+              </div>
+              <div class="stat-card">
+                <span>ATS score</span>
+                <strong>94%</strong>
+              </div>
+              <div class="stat-card">
+                <span>Linked roles</span>
+                <strong>7</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container" id="features">
+        <div class="feature-grid">
+          <article class="feature">
+            <div class="icon">✦</div>
+            <h3>AI-powered rewriting</h3>
+            <p>Tailor your profile to the exact role, highlight the right wins, and rewrite with clearer proof points.</p>
+          </article>
+          <article class="feature">
+            <div class="icon">✓</div>
+            <h3>ATS-friendly structure</h3>
+            <p>Keep the right wording, clear sectioning, and strong keyword alignment for applicant tracking systems.</p>
+          </article>
+          <article class="feature">
+            <div class="icon">⬇</div>
+            <h3>Download-ready PDF</h3>
+            <p>Build a clean, watermark-free document and print it as a genuine PDF for recruiter use.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="builder" id="builder">
+        <div class="container">
+          <div class="builder-shell">
+            <div class="builder-header">
+              <h2>CV builder</h2>
+              <button class="button primary" type="button" id="generateCv">Generate CV</button>
+            </div>
+            <div class="builder-main">
+              <div class="form-pane">
+                <div class="form-group">
+                  <label for="fullName">Full name</label>
+                  <input id="fullName" value="Aarav Sharma" />
+                </div>
+
+                <div class="row">
+                  <div class="form-group">
+                    <label for="role">Target role</label>
+                    <input id="role" value="Senior Frontend Engineer" />
+                  </div>
+                  <div class="form-group">
+                    <label for="location">Location</label>
+                    <input id="location" value="Bengaluru, India" />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="email" value="aarav@email.com" />
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input id="phone" value="+91 98765 43210" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="summary">Professional summary</label>
+                  <textarea id="summary">Product-minded frontend engineer with 6+ years of experience building scalable web applications, improving web performance, and leading UI architecture decisions across SaaS and e-commerce products.</textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="experience">Experience</label>
+                  <textarea id="experience">Senior Frontend Engineer – Innovify Labs
+• Built a dashboard used by 30k+ users, reducing page load time by 38% by optimizing rendering, caching, and bundle strategy.
+• Led migration from a legacy React app to a component-based design system, improving dev velocity across 3 product teams.
+• Partnered with product and backend teams to launch new billing, onboarding, and analytics journeys with measurable conversion uplift.</textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="skills">Skills</label>
+                  <textarea id="skills">React, TypeScript, Next.js, Node.js, GraphQL, Performance Optimization, Accessibility, Design Systems, Testing, CI/CD</textarea>
+                </div>
+
+                <div class="prompt-box">
+                  <label for="prompt">AI prompt</label>
+                  <textarea id="prompt">Rewrite this profile for a senior frontend engineering role at a high-growth SaaS company. Keep the achievements factual, highlight product impact, and prefer ATS-friendly language.</textarea>
+                </div>
+
+                <div class="action-row">
+                  <button class="button primary" type="button" id="generateAi">Improve with AI</button>
+                  <button class="button secondary" type="button" id="downloadPdf">Download PDF</button>
+                </div>
+                <div id="status" class="status" aria-live="polite"></div>
+              </div>
+
+              <div class="preview-pane">
+                <div class="cv-shell" id="cvPreview">
+                  <div class="cv-header">
+                    <div>
+                      <h2 class="cv-name">Aarav Sharma</h2>
+                      <div class="cv-role">Senior Frontend Engineer</div>
+                    </div>
+                    <ul class="cv-meta">
+                      <li>Bengaluru, India</li>
+                      <li>aarav@email.com</li>
+                      <li>+91 98765 43210</li>
+                    </ul>
+                  </div>
+
+                  <div class="cv-section">
+                    <h4>Profile</h4>
+                    <p>Product-minded frontend engineer with 6+ years of experience building scalable web applications, improving web performance, and leading UI architecture decisions across SaaS and e-commerce products.</p>
+                  </div>
+
+                  <div class="cv-section">
+                    <h4>Experience</h4>
+                    <p><strong>Senior Frontend Engineer – Innovify Labs</strong></p>
+                    <ul>
+                      <li>Built a dashboard used by 30k+ users, reducing page load time by 38% by optimizing rendering, caching, and bundle strategy.</li>
+                      <li>Led migration from a legacy React app to a component-based design system, improving dev velocity across 3 product teams.</li>
+                      <li>Partnered with product and backend teams to launch new billing, onboarding, and analytics journeys with measurable conversion uplift.</li>
+                    </ul>
+                  </div>
+
+                  <div class="cv-section">
+                    <h4>Skills</h4>
+                    <div class="skill-chips">
+                      <span class="skill-chip">React</span>
+                      <span class="skill-chip">TypeScript</span>
+                      <span class="skill-chip">Next.js</span>
+                      <span class="skill-chip">Node.js</span>
+                      <span class="skill-chip">GraphQL</span>
+                      <span class="skill-chip">Accessibility</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="unlock-box hidden" id="unlockBox">
+                  <h3>Unlock premium PDF</h3>
+                  <p>Payment verification keeps the unlock flow secure. Enter your Razorpay payment ID below.</p>
+                  <div class="inline">
+                    <input id="paymentIdInput" type="text" placeholder="pay_xxxxxxxxxxxx" />
+                    <button class="button primary" type="button" id="verifyPayment">Verify</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="faq" id="faq">
+        <div class="container">
+          <div class="faq-grid">
+            <article class="faq-item">
+              <h3>Is my data safe?</h3>
+              <p>API keys stay on the server. The browser only sends the prompt and payment verification details needed for the workflow.</p>
+            </article>
+            <article class="faq-item">
+              <h3>Why ATS-first?</h3>
+              <p>Clean structure, factual claims, and keyword alignment make the document more likely to pass automated screening.</p>
+            </article>
+            <article class="faq-item">
+              <h3>Do I need a payment?</h3>
+              <p>A lightweight premium unlock flow protects the PDF experience and keeps the tool sustainable for ongoing AI usage.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container foot">
+        <span>© 2026 ATS CV Maker</span>
+        <span>Built for real job-search outcomes</span>
+      </div>
+    </footer>
+
+    <script>
+      const statusEl = document.getElementById('status');
+      const cvPreview = document.getElementById('cvPreview');
+      const unlockBox = document.getElementById('unlockBox');
+
+      const fields = {
+        fullName: document.getElementById('fullName'),
+        role: document.getElementById('role'),
+        location: document.getElementById('location'),
+        email: document.getElementById('email'),
+        phone: document.getElementById('phone'),
+        summary: document.getElementById('summary'),
+        experience: document.getElementById('experience'),
+        skills: document.getElementById('skills'),
+        prompt: document.getElementById('prompt')
+      };
+
+      function setStatus(message, type = '') {
+        statusEl.textContent = message;
+        statusEl.className = 'status';
+        if (type) statusEl.classList.add(type);
+      }
+
+      function updatePreview() {
+        const name = fields.fullName.value || 'Your Name';
+        const role = fields.role.value || 'Your Role';
+        const location = fields.location.value || 'Your Location';
+        const email = fields.email.value || 'your@email.com';
+        const phone = fields.phone.value || '+00 00000 00000';
+        const summary = fields.summary.value || 'Your professional summary';
+        const experience = fields.experience.value || 'Your experience';
+        const skills = (fields.skills.value || '').split(',').map(s => s.trim()).filter(Boolean);
+
+        document.querySelector('.cv-name').textContent = name;
+        document.querySelector('.cv-role').textContent = role;
+        document.querySelector('.cv-meta').innerHTML = `<li>${location}</li><li>${email}</li><li>${phone}</li>`;
+        document.querySelector('.cv-section p').textContent = summary;
+        document.querySelector('.cv-section ul').innerHTML = experience
+          .split('\n')
+          .filter(Boolean)
+          .map(item => `<li>${item.replace(/^•\s*/, '')}</li>`)
+          .join('');
+
+        const skillWrap = document.querySelector('.skill-chips');
+        skillWrap.innerHTML = skills.map(skill => `<span class="skill-chip">${skill}</span>`).join('');
+      }
+
+      document.getElementById('generateCv').addEventListener('click', updatePreview);
+      document.getElementById('scrollToBuilder').addEventListener('click', () => {
+        document.getElementById('builder').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      document.getElementById('generateAi').addEventListener('click', async () => {
+        setStatus('Generating tailored CV copy...', 'success');
+        try {
+          const payload = {
+            prompt: fields.prompt.value,
+            cv: {
+              fullName: fields.fullName.value,
+              role: fields.role.value,
+              location: fields.location.value,
+              email: fields.email.value,
+              phone: fields.phone.value,
+              summary: fields.summary.value,
+              experience: fields.experience.value,
+              skills: fields.skills.value
+            }
+          };
+
+          const res = await fetch('/api/ai', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || 'Request failed');
+
+          fields.summary.value = data.summary || fields.summary.value;
+          fields.experience.value = data.experience || fields.experience.value;
+          fields.skills.value = data.skills || fields.skills.value;
+          updatePreview();
+          setStatus('AI rewrite applied successfully.', 'success');
+        } catch (error) {
+          console.error(error);
+          setStatus(error.message || 'AI generation failed. Please try again.', 'error');
+        }
+      });
+
+      document.getElementById('downloadPdf').addEventListener('click', () => {
+        unlockBox.classList.remove('hidden');
+        setStatus('Unlock your PDF by verifying the payment ID.', 'success');
+        window.print();
+      });
+
+      document.getElementById('verifyPayment').addEventListener('click', async () => {
+        const paymentId = document.getElementById('paymentIdInput').value.trim();
+        if (!paymentId) {
+          setStatus('Please enter a valid Razorpay payment ID.', 'error');
+          return;
+        }
+
+        try {
+          const res = await fetch('/api/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ payment_id: paymentId })
+          });
+
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || 'Verification failed');
+
+          setStatus('Payment verified. PDF is now unlocked.', 'success');
+          unlockBox.classList.add('hidden');
+          window.print();
+        } catch (error) {
+          setStatus(error.message || 'Verification failed. Please check the payment ID.', 'error');
+        }
+      });
+
+      updatePreview();
+    </script>
+  </body>
+</html>
